@@ -1,14 +1,13 @@
+__all__ = [
+    "PDF_Manager",
+    ]
+
 import fitz
 import re
 import uuid
 
 from PIL import Image
 from pypdf import PdfWriter
-
-
-__all__ = [
-    "PDF_Manager",
-    ]
 
 
 class PDF_Manager(object):
