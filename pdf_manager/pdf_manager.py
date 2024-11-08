@@ -37,22 +37,27 @@ class PDF_Manager(object):
             self,
             image_paths: list|str = None,
             ):
-        # Read image contents
-        images = [Image.open(image_path) for image_path in image_paths]
+        if image_paths is not None:
+            assert isinstance(image_paths, list) or isinstance(image_paths, str), "Must pass list or string."
+            if isinstance(image_paths, str):
+                image_paths = [image_paths]
 
-        # Save as PDF
-        filename = str(uuid.uuid4()) + ".pdf"
-        images[0].save(
-            fp=filename,
-            format="PDF",
-            resolution=100.0,
-            save_all=True,
-            append_images=images[1:],
-            )
+            # Read image contents
+            images = [Image.open(image_path) for image_path in image_paths]
 
-        # Add and delete
-        self.add(filename)
-        # pathlib.Path.unlink(filename)  # Can't delete, it's protected...
+            # Save as PDF
+            filename = str(uuid.uuid4()) + ".pdf"
+            images[0].save(
+                fp=filename,
+                format="PDF",
+                resolution=100.0,
+                save_all=True,
+                append_images=images[1:],
+                )
+
+            # Add and delete
+            self.add(filename)
+            # pathlib.Path.unlink(filename)  # Can't delete, it's protected...
         return self
 
     def split(
